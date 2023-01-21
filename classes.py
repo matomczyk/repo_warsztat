@@ -37,3 +37,16 @@ class User:
             cursor.execute(sql, values)
             return True
 
+    @staticmethod
+    def load_user_by_username(cursor, username):
+        sql = """SELECT id, username, hashed_password FROM users WHERE username=%s"""
+        cursor.execute(sql, (id_, ))
+        data = cursor.fetchone()
+        if data:
+            id, username, hashed_password = data
+            loaded_user = User(username)
+            loaded_user._id = id_
+            loaded_user._hashed_password = hashed_password
+            return loaded_user
+
+
