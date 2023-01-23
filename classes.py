@@ -40,6 +40,20 @@ class User:
     @staticmethod
     def load_user_by_username(cursor, username):
         sql = """SELECT id, username, hashed_password FROM users WHERE username=%s"""
+        cursor.execute(sql, (id, ))
+        data = cursor.fetchone()
+        if data:
+            id_, username, hashed_password = data
+            loaded_user = User(username)
+            loaded_user._id = id_
+            loaded_user._hashed_password = hashed_password
+            return loaded_user
+        else:
+            return None
+
+    @staticmethod
+    def load_user_by_id(cursor, id_):
+        sql = """SELECT id, username, hashed_password FROM users WHERE id=%s"""
         cursor.execute(sql, (id_, ))
         data = cursor.fetchone()
         if data:
@@ -48,5 +62,29 @@ class User:
             loaded_user._id = id_
             loaded_user._hashed_password = hashed_password
             return loaded_user
+        else:
+            return None
+
+    @staticmethod
+    def load_all_users(cursor):
+        sql = """SELECT id, username, hashed_password FROM users"""
+        users = []
+        cursor.execute(sql)
+        for row in cursor.fetchall():
+            id_, username, hashed_password = row
+            loaded_user = User()
+            loaded_user._id = id_
+            loaded_user.username = username
+            loaded_user._hashed_password = hashed_password
+            users.append(loaded_user)
+        return users
+
+    def delete(self, cursor):
+        sql = "DELETE FROM Users WHERE id=%s"
+        cursor.execute(sql, (self.id, ))
+        self._id = -1
+        return True
+
+
 
 
