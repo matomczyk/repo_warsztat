@@ -1,3 +1,6 @@
+import random
+import hashlib
+ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 def hash_password(password, salt=None):
     """
     Hashes the password with salt as an optional parameter.
